@@ -1,0 +1,17 @@
+http://localhost/smartradio/login/login
+
+Login: 
+
+- ADMIN:
+	username: admin
+	password: 123
+
+- ANOTHER ROLES:
+	username: manager
+	password: 123
+
+	username: guest
+	password: 123
+
+	username: tester
+	password: 123
