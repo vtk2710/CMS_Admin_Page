@@ -54,9 +54,10 @@ class Users {
     }
 
     
-    public function Users($username, $password) {
+    public function Users($username, $password, $role) {
         $this -> $username = $username;
         $this -> $password = $password;
+        $this -> $role = $role;
     }
 }
 ?>

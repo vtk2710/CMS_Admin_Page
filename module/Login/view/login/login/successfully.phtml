@@ -8,14 +8,15 @@
 </head>
 <body>
     <?php
-        if (isset($_SESSION['msg']) && isset($_SESSION['role'])) {
-            if ($_SESSION['role'] == "AD") {
-              header("Location: http://localhost/smartradio/login/login ");
-              die();
-            } else {
-              echo ("<h1>Welcome {$_SESSION['msg']} .</h1>");
-            }
+        if (isset($_SESSION['loginUser'])) {
+          if ($_SESSION['loginUser']->getRole() == "AD") {
+            header("Location: http://localhost/smartradio/login/login ");
+            $_SESSION['loginUser'] = NULL;
+            die();
+          } else {
+            echo ("<h1>Welcome {$_SESSION['loginUser']->getUserName()} .</h1>");
           }
+        }
     ?>
 </body>
 </html>

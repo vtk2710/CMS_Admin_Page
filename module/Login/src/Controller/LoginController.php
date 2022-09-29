@@ -8,6 +8,7 @@
 
 namespace Login\Controller;
 
+use Login\Entity\{Users as a};
 use Login\Utilities\{DBUtils as db_utils};
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -36,10 +37,13 @@ class LoginController extends AbstractActionController
                 $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) == 1) {
-                    $user = $result->fetch_assoc();
-                    $role = $user['role'];
-                    $_SESSION['msg'] = $user["username"];
-                    $_SESSION['role'] = $user["role"];
+                    $check = $result->fetch_assoc();
+                    $role = $check['role'];
+                    $user = new a(); 
+                    $user->setUsername($username);
+                    $user->setPassword($password);
+                    $user->setRole($role);
+                    $_SESSION['loginUser'] = $user;
                     if($role == "AD"){ 
                         return $this->redirect()->toRoute('admin');   
                     }else {
