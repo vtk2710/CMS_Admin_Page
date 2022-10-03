@@ -11,14 +11,11 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <?php
-  if (isset($_SESSION['loginUser'])) {
-    if ($_SESSION['loginUser']->getRole() != "AD") {
-      header("Location: http://localhost/smartradio/login/login ");
-      //$_SESSION['loginUser'] = NULL;
-      die();
-    } else {
-      echo ("<h1>Welcome {$_SESSION['loginUser']->getUserName()} .</h1>");
-    }
+  if ($_SESSION['loginUser'] == NULL || $_SESSION['loginUser']->getRole() != 'AD') {
+    header("Location: http://localhost/smartradio/login/login ");
+    die();
+  }else{
+    echo ("<h1>Welcome {$_SESSION['loginUser']->getUserName()} .</h1>");  
   }
   ?>
   <div class="wrapper">

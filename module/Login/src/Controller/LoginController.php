@@ -12,7 +12,8 @@ use Login\Entity\{Users as a};
 use Login\Utilities\{DBUtils as db_utils};
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-
+use Login\Authorize\Authorization;
+use Login\Model\Query;
 session_start();
 class LoginController extends AbstractActionController
 {
@@ -25,6 +26,8 @@ class LoginController extends AbstractActionController
     {
         $_SESSION['msg'] = "";
         $test = new db_utils();
+        $auth = new Authorization();
+        $query = new Query();
         $conn = $test->connectDB();
         if($conn -> connect_error) {
             die("Connection failed: " . $conn -> connect_error);
@@ -34,7 +37,7 @@ class LoginController extends AbstractActionController
             if (isset($_POST['username'])) {
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+                $sql = $query->getUserQuery($username, $password);
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) == 1) {
                     $check = $result->fetch_assoc();
@@ -44,10 +47,10 @@ class LoginController extends AbstractActionController
                     $user->setPassword($password);
                     $user->setRole($role);
                     $_SESSION['loginUser'] = $user;
-                    if($role == "AD"){ 
+                    if($auth->checkAllowed($role, null, 'admin')){ 
                         return $this->redirect()->toRoute('admin');   
-                    }else {
-                        return $this->redirect()->toRoute('login-successfully');
+                    }else if($auth->checkAllowed($role, null, 'manager')){
+                        return $this->redirect()->toRoute('manager');
                     }
                 } else {
                     $_SESSION['msg'] = "Wrong username or password";
@@ -57,7 +60,7 @@ class LoginController extends AbstractActionController
         }  
     }
 
-    public function successfullyAction()
+    public function managerAction()
     {
         return new ViewModel();
     }

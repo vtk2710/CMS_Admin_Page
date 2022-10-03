@@ -25,13 +25,13 @@ return [
                 ],
             ],
 
-            'login-successfully' => [
+            'manager' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/login/successfully',
+                    'route'    => '/login/manager',
                     'defaults' => [
                         'controller' => Controller\LoginController::class,
-                        'action'     => 'successfully',
+                        'action'     => 'manager',
                     ],
                 ],
             ],
