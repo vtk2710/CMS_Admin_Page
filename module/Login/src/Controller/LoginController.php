@@ -34,11 +34,14 @@ class LoginController extends AbstractActionController
             $_SESSION['msg'] = "Connection DB failed";
             return $this->redirect()->toRoute('login-failed');
         }else{
+
             if (isset($_POST['username'])) {
+
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                $sql = $query->getUserQuery($username, $password);
+                $sql = $query->getLoginUser($username, $password);
                 $result = mysqli_query($conn, $sql);
+
                 if (mysqli_num_rows($result) == 1) {
                     $check = $result->fetch_assoc();
                     $role = $check['role'];
@@ -47,11 +50,13 @@ class LoginController extends AbstractActionController
                     $user->setPassword($password);
                     $user->setRole($role);
                     $_SESSION['loginUser'] = $user;
-                    if($auth->checkAllowed($role, null, 'admin')){ 
+
+                    if($auth->checkAllowed($role, 'admin', 'admin')){ 
                         return $this->redirect()->toRoute('admin');   
-                    }else if($auth->checkAllowed($role, null, 'manager')){
+                    }else if($auth->checkAllowed($role, 'manager', 'manager')){
                         return $this->redirect()->toRoute('manager');
                     }
+                    
                 } else {
                     $_SESSION['msg'] = "Wrong username or password";
                     return $this->redirect()->toRoute('login-failed');
@@ -72,6 +77,10 @@ class LoginController extends AbstractActionController
 
     public function adminAction()
     {
+        return new ViewModel();
+    }
+
+    public function testAction(){
         return new ViewModel();
     }
 }

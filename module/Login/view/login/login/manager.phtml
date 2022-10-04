@@ -8,7 +8,6 @@
 </head>
 <body>
     <?php
-    echo $_SESSION['loginUser'] == NULL ? "true" : "false";
         if ($_SESSION['loginUser'] == NULL || $_SESSION['loginUser']->getRole() != "MN") {
           header("Location: http://localhost/smartradio/login/login ");
           die();

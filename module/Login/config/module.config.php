@@ -90,6 +90,17 @@ return [
                     ],
                 ],
             ],
+
+            'test' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/login/test',
+                    'defaults' => [
+                        'controller' => Controller\LoginController::class,
+                        'action'     => 'test',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [

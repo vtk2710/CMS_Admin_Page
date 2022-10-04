@@ -10,18 +10,25 @@ include 'vendor/autoload.php';
 
 class Authorization
 {
+    function __construct()
+    {
+        $this->acl = new Acl();
+        $this->acl->addRole(new Role('AD'));
+        $this->acl->addRole(new Role('MN'));
+
+        $this->acl->addResource(new Resource('admin'));
+        $this->acl->addResource(new Resource('manager'));
+        $this->acl->addResource(new Resource('test'));
+
+
+        $this->acl->allow('MN', 'manager');
+        $this->acl->allow('AD', 'admin');
+        return $this->acl;
+    }
+
     function checkAllowed($role, $resource, $action)
     {
-        $acl = new Acl();
-        $acl->addRole(new Role('AD'));
-        $acl->addRole(new Role('MN'));
-        $acl->addResource(new Resource('admin'));
-        $acl->addResource(new Resource('manager'));
-
-        $acl->allow('AD', null, 'admin');
-        $acl->allow('MN', null, 'manager');
-
-        $check = $acl->isAllowed($role, $resource, $action);
+        $check = $this->acl->isAllowed($role, $resource, $action);
         return $check;
     }
 }
