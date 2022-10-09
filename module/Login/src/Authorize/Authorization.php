@@ -13,22 +13,23 @@ class Authorization
     function __construct()
     {
         $this->acl = new Acl();
-        $this->acl->addRole(new Role('AD'));
-        $this->acl->addRole(new Role('MN'));
-
-        $this->acl->addResource(new Resource('admin'));
-        $this->acl->addResource(new Resource('manager'));
-        $this->acl->addResource(new Resource('test'));
-
-
-        $this->acl->allow('MN', 'manager');
-        $this->acl->allow('AD', 'admin');
-        return $this->acl;
+        
+        return $this->acl->addRole(new Role('AD'))
+                         ->addRole(new Role('MN'))
+                         ->addResource(new Resource('admin'))
+                         ->addResource(new Resource('manager'))
+                         ->addResource(new Resource('test'))
+                         ->allow('MN', 'manager')
+                         ->allow('AD', 'admin');
     }
 
-    function checkAllowed($role, $resource, $action)
+    function checkAdminAllowed($role)
     {
-        $check = $this->acl->isAllowed($role, $resource, $action);
-        return $check;
+        return $this->acl->isAllowed($role, 'admin', 'admin');
+    }
+
+    function checkManagerAllowed($role) 
+    {
+        return $this->acl->isAllowed($role, 'manager', 'manager');
     }
 }

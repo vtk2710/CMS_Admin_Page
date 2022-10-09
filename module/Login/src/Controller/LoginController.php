@@ -43,6 +43,7 @@ class LoginController extends AbstractActionController
                 $result = mysqli_query($conn, $sql);
 
                 if (mysqli_num_rows($result) == 1) {
+
                     $check = $result->fetch_assoc();
                     $role = $check['role'];
                     $user = new a(); 
@@ -51,9 +52,9 @@ class LoginController extends AbstractActionController
                     $user->setRole($role);
                     $_SESSION['loginUser'] = $user;
 
-                    if($auth->checkAllowed($role, 'admin', 'admin')){ 
+                    if($auth->checkAdminAllowed($role)){ 
                         return $this->redirect()->toRoute('admin');   
-                    }else if($auth->checkAllowed($role, 'manager', 'manager')){
+                    }else if($auth->checkManagerAllowed($role)){
                         return $this->redirect()->toRoute('manager');
                     }
                     
