@@ -28,5 +28,5 @@ return [
     'Zend\Validator',
     'ZendDeveloperTools',
     'Application',
-    'Login'
+    'Login',
 ];

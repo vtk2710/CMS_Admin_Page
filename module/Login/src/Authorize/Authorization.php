@@ -23,12 +23,12 @@ class Authorization
                          ->allow('AD', 'admin');
     }
 
-    function checkAdminAllowed($role)
+    public function checkAdminAllowed($role)
     {
         return $this->acl->isAllowed($role, 'admin', 'admin');
     }
 
-    function checkManagerAllowed($role) 
+    public function checkManagerAllowed($role) 
     {
         return $this->acl->isAllowed($role, 'manager', 'manager');
     }

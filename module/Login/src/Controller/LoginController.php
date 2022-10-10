@@ -14,12 +14,15 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Login\Authorize\Authorization;
 use Login\Model\Query;
+use Login\Forms\LoginForm;
 session_start();
 class LoginController extends AbstractActionController
 {
     public function loginAction()
     {
-        return new ViewModel();
+        $form = new LoginForm();
+        $view = new ViewModel(['form' => $form]);
+        return $view;
     }
 
     public function checkAction()
